@@ -43,19 +43,6 @@ void SceneShader::calculateCylindricalUVCoordinates()
 	}
 }
 
-//again most likely not needed by atleast want to get two different things before i draw my hemisphere
-void SceneShader::calculateCylindricalUVCoordinatesHemi()
-{
-//more copied code for hemisphere probably uneeded
-	for (unsigned int i = 0; i < _mesh->vertices.size(); i++)
-	{
-		glm::vec3 vertex(_hemisphereMesh->vertices[i][0], _hemisphereMesh->vertices[i][1], _hemisphereMesh->vertices[i][2]);
-		float theta = glm::atan(vertex.z, vertex.x)/PI;
-
-		_uvsHemisphere.push_back(glm::vec2(theta, vertex.y * 4.0));
-	}
-}
-
 void SceneShader::readMesh( std::string filename )
 {
 	_mesh = trimesh::TriMesh::read(filename);
@@ -75,25 +62,6 @@ void SceneShader::readMesh( std::string filename )
 	calculateCylindricalUVCoordinates();
 }
 
-//probably don't need any of this hemisphere code because the hemisphere should be created from scratch not a model loaded
-void SceneShader::readHemi( std::string filename )
-{
-	_hemisphereMesh = trimesh::TriMesh::read(filename);
-
-	_hemisphereMesh->need_bbox();
-	_hemisphereMesh->need_faces();
-	_hemisphereMesh->need_normals();
-	_hemisphereMesh->need_bsphere();
-
-	for(unsigned int i = 0; i < _hemisphereMesh->faces.size(); i++)
-	{
-   	_triangleIndices.push_back(_hemisphereMesh->faces[i][0]);
-	  _triangleIndices.push_back(_hemisphereMesh->faces[i][1]);
-	  _triangleIndices.push_back(_hemisphereMesh->faces[i][2]);
-	}
-	calculateCylindricalUVCoordinatesHemi();
-}
-
 void SceneShader::createHemisphere()
 {
 	int interval = 5;
@@ -111,6 +79,7 @@ void SceneShader::createHemisphere()
 		for (int theta = 0; theta <= 360; theta = theta + interval)
 		{
 			t = interval*(PI/180.f);
+			
 			//Point 1
 			x = r*(cos(theta*(PI/180.f))*sin(phi*(PI/180.f)));
 			y = r*(sin(theta*(PI/180.f))*sin(phi*(PI/180.f)));
@@ -463,7 +432,7 @@ void SceneShader::render()
 {
 	//renderPlane();
 	renderMesh();
-	renderLight();
+	//renderLight();
 	renderHemisphere();
 }
 

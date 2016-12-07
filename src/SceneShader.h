@@ -58,14 +58,13 @@ private:
 	void calculateCylindricalUVCoordinatesHemi();
 
 	void readMesh( std::string filename );
-	void readHemi( std::string filename );
 	void createVertexBuffer();
 	void createHemisphere();
 
 	//image
 	std::vector<unsigned char> _image;
-        unsigned int _imageWidth;
-        unsigned int _imageHeight;
+	unsigned int _imageWidth;
+	unsigned int _imageHeight;
 
 	//plane texture image
 
@@ -110,15 +109,16 @@ private:
 	Texture _texture;
 	std::vector<glm::vec2> _uvs;
 	std::vector<glm::vec2> _uvsHemisphere;
+	
 	//tecture and position vectors for hemisphere
 	std::vector<glm::vec3> ePos;
 	std::vector<glm::vec2> eTex;
+	
 	/*vertices*/
 	std::vector<float> _vertices;
 
 	trimesh::TriMesh* _mesh;
-	//may not need this one I don't know where trimesh is getting this mesh from
-	trimesh::TriMesh* _hemisphereMesh;
+
 	std::vector<unsigned int> _triangleIndices;
 
 	glm::vec3 lightPosition;
