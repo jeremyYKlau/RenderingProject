@@ -12,7 +12,7 @@ out vec3 L;
 uniform vec3 lightPosition;
 
 void main (void)
-{	
+{
     mat3 normalMatrix = mat3(transpose(inverse(modelview)));
     N = normalize(normalMatrix*vec3(0.0, 1.0, 0.0));
     vec4 L4 = modelview * vec4(lightPosition, 1.0);

@@ -105,40 +105,57 @@ void SceneShader::createHemisphere()
 	float u;
 	float v;
 	//float pi = PI;
+	//using phi and theta create intervals to create a single 4 point quad to render as part of the hemisphere
 	for (int phi = 0; phi <= 90; phi = phi + interval)
 	{
 		for (int theta = 0; theta <= 360; theta = theta + interval)
 		{
 			t = interval*(PI/180.f);
+			//Point 1
 			x = r*(cos(theta*(PI/180.f))*sin(phi*(PI/180.f)));
 			y = r*(sin(theta*(PI/180.f))*sin(phi*(PI/180.f)));
 			z = r*cos(phi*(PI/180.f));
 			glm::vec3 p0 = glm::vec3(x,y,z);
 			ePos.push_back(p0);
+			u = (theta)/(2.0*PI);
+			v = (phi)/(PI/2.0);
+			glm::vec2 t0 = glm::vec2(u,v);
+			eTex.push_back(t0);
 
+			//Point 2
 			x = r*(cos(theta*(PI/180.f)+t)*sin(phi*(PI/180.f)));
 			y = r*(sin(theta*(PI/180.f)+t)*sin(phi*(PI/180.f)));
 			z = r*cos(phi*(PI/180.f));
 			glm::vec3 p1 = glm::vec3(x,y,z);
-
 			ePos.push_back(p1);
+			u = ((theta)/(2.0*PI))+t;
+			v = ((phi)/(PI/2.0))+t;
+			glm::vec2 t1 = glm::vec2(u,v);
+			eTex.push_back(t1);
+
+			//Point 3
 			x = r*(cos(theta*(PI/180.f))*sin(phi*(PI/180.f)+t));
 			y = r*(sin(theta*(PI/180.f))*sin(phi*(PI/180.f)+t));
 			z = r*cos(phi*(PI/180.f)+t);
 			glm::vec3 p2 = glm::vec3(x,y,z);
-
 			ePos.push_back(p2);
+			u = ((theta)/(2.0*PI))+(2*t);
+			v = ((phi)/(PI/2.0))+(2*t);
+			glm::vec2 t2 = glm::vec2(u,v);
+			eTex.push_back(t2);
+
+			//Point 4
 			x = r*(cos(theta*(PI/180.f)+t)*sin(phi*(PI/180.f)+t));
 			y = r*(sin(theta*(PI/180.f)+t)*sin(phi*(PI/180.f)+t));
 			z = r*cos(phi*(PI/180.f)+t);
-			glm::vec3 p = glm::vec3(x,y,z);
-			ePos.push_back(glm::vec3(x,y,z));
-
-			//code for calculating normals of a hemisphere
-			eTex.push_back(glm::vec2(phi/180.f, theta/360.f));
+			glm::vec3 p3 = glm::vec3(x,y,z);
+			ePos.push_back(p3);
+			u = ((theta)/(2.0*PI))+(3*t);
+			v = ((phi)/(PI/2.0))+(3*t);
+			glm::vec2 t3 = glm::vec2(u,v);
+			eTex.push_back(t3);
 		}
 	}
-
 }
 void SceneShader::createVertexBuffer()
 {
@@ -247,14 +264,12 @@ void SceneShader::createVertexBuffer()
 
 	glGenBuffers(1, &_hemisphereVertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, _hemisphereVertexBuffer);
-	//not sure about this line do i need to create a separate mesh trimesh for the hemisphere
 	glBufferData(GL_ARRAY_BUFFER,  ePos.size() * sizeof (glm::vec3), ePos.data(), GL_STATIC_DRAW);
-	//can i set the glVertexAttribPointer index to the same as values already used above?
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(0);
 
 //for hemisphere UVs
-  glGenBuffers(1, &_hemisphereTextureBuffer);
+	glGenBuffers(1, &_hemisphereTextureBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, _hemisphereTextureBuffer);
 	glBufferData(GL_ARRAY_BUFFER, eTex.size() * sizeof(glm::vec2), eTex.data(), GL_STATIC_DRAW);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL);
@@ -312,7 +327,7 @@ void SceneShader::renderPlane()
 
 	glUniform3fv(glGetUniformLocation(_programPlane, "lightPosition"), 1, glm::value_ptr(lightPosition) );
 
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDrawArrays(GL_TRIANGLES, 0, 4);
 
 	_texture.unbind2DTexture();
 
@@ -411,7 +426,7 @@ void SceneShader::renderHemisphere()
 	_texture.unbind2DTexture();
 }
 
-//NO idea how this is going to work probably going to try to make multiple
+//Might not even have light anymore doesn't really add anything to the scene
 void SceneShader::renderLight()
 {
 	glUseProgram(_programLight);
@@ -446,7 +461,7 @@ void SceneShader::renderLight()
 
 void SceneShader::render()
 {
-	renderPlane();
+	//renderPlane();
 	renderMesh();
 	renderLight();
 	renderHemisphere();

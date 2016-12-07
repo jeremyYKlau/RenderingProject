@@ -19,6 +19,7 @@ out vec2 UV;
 void main(void)
 {
 	UV = uv;
+
 	//perhaps change these to input values so i can use mouse input to scale and rotate scene based off vertex shaders
 	mat3 hemiRotate = mat3(
 		1.0f, 0, 0, // first column (not row!)
@@ -40,11 +41,11 @@ void main(void)
 
     vec4 lightCameraSpace = modelview * vec4(lightPosition, 1.0);
     lightCameraSpace /= lightCameraSpace.w;
-	vec3 normal = normalize(vertex);
+	vec3 normal = normalize(-vertex);
     mat3 normalMatrix = mat3(transpose(inverse(modelview)));
     N = normalize(normalMatrix * normal);
 
-    float scale = 0.8;    
+    float scale = 1.0;    
     vec3 positionModelSpace = vertex*scale + vec3(0.0, -0.42, 0.0);
     positionModelSpace = positionModelSpace*hemiRotate;
 

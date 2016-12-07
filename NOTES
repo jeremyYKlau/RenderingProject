@@ -1,0 +1,5 @@
+REMEMBER
+Normalize my UV coords
+U(x) coord should be divided by 2Pi
+V(y) coord should be divided by Pi 
+This will let the hemisphere access the whole range of coordinates

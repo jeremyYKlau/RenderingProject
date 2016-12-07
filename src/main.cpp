@@ -35,12 +35,13 @@ void keyboard( unsigned char key, int x, int y )
 	case (GLFW_KEY_Z):
 		rotate_y -=  1.0f;
 	break;
-//this one is broken now
+	
+//reset camera after messing it around to an origin point looking at the object
 	case (GLFW_KEY_R):
 	{
-		rotate_x = 1.0;
-		rotate_y = 1.0;
-		translate_z = 1;
+		rotate_x = 0.0;
+		rotate_y = 0.0;
+		translate_z = -1.0;
 	}
 	break;
 	
