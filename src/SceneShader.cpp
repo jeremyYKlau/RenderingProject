@@ -74,12 +74,12 @@ void SceneShader::createHemisphere()
 	float v;
 	//float pi = PI;
 	//using phi and theta create intervals to create a single 4 point quad to render as part of the hemisphere
-	for (int phi = 0; phi <= 90; phi = phi + interval)
+	for (int phi = 0; phi <= 180; phi = phi + interval)
 	{
 		for (int theta = 0; theta <= 360; theta = theta + interval)
 		{
 			t = interval*(PI/180.f);
-			
+			//something with point 1 i think it may be all of them actually
 			//Point 1
 			x = r*(cos(theta*(PI/180.f))*sin(phi*(PI/180.f)));
 			y = r*(sin(theta*(PI/180.f))*sin(phi*(PI/180.f)));
@@ -87,7 +87,7 @@ void SceneShader::createHemisphere()
 			glm::vec3 p0 = glm::vec3(x,y,z);
 			ePos.push_back(p0);
 			u = (theta)/(2.0*PI);
-			v = (phi)/(PI/2.0);
+			v = (phi)/(PI);
 			glm::vec2 t0 = glm::vec2(u,v);
 			eTex.push_back(t0);
 
@@ -97,8 +97,8 @@ void SceneShader::createHemisphere()
 			z = r*cos(phi*(PI/180.f));
 			glm::vec3 p1 = glm::vec3(x,y,z);
 			ePos.push_back(p1);
-			u = ((theta)/(2.0*PI))+t;
-			v = ((phi)/(PI/2.0))+t;
+			u = ((theta)/(2.0*PI))+(t);
+			v = ((phi)/(PI));
 			glm::vec2 t1 = glm::vec2(u,v);
 			eTex.push_back(t1);
 
@@ -108,8 +108,8 @@ void SceneShader::createHemisphere()
 			z = r*cos(phi*(PI/180.f)+t);
 			glm::vec3 p2 = glm::vec3(x,y,z);
 			ePos.push_back(p2);
-			u = ((theta)/(2.0*PI))+(2*t);
-			v = ((phi)/(PI/2.0))+(2*t);
+			u = ((theta)/(2.0*PI));
+			v = ((phi)/(PI))+(t);
 			glm::vec2 t2 = glm::vec2(u,v);
 			eTex.push_back(t2);
 
@@ -119,10 +119,11 @@ void SceneShader::createHemisphere()
 			z = r*cos(phi*(PI/180.f)+t);
 			glm::vec3 p3 = glm::vec3(x,y,z);
 			ePos.push_back(p3);
-			u = ((theta)/(2.0*PI))+(3*t);
-			v = ((phi)/(PI/2.0))+(3*t);
+			u = ((theta)/(2.0*PI))+(t);
+			v = ((phi)/(PI))+(t);
 			glm::vec2 t3 = glm::vec2(u,v);
 			eTex.push_back(t3);
+			
 		}
 	}
 }
@@ -197,7 +198,7 @@ void SceneShader::createVertexBuffer()
 	glBindVertexArray(0);
 
 	//read and create mesh geometry
-	readMesh("./models/bunny.ply"); //normalized vertices coordinates
+	readMesh("./models/teapot.ply"); //normalized vertices coordinates
 
 	//triangle mesh
 	glGenVertexArrays(1, &_meshVertexArray);
@@ -432,8 +433,8 @@ void SceneShader::render()
 {
 	//renderPlane();
 	renderMesh();
-	//renderLight();
-	renderHemisphere();
+	renderLight();
+	//renderHemisphere();
 }
 
 void SceneShader::setZTranslation(float z)

@@ -20,8 +20,8 @@ out vec2 UV;
 void main(void)
 {
 	UV = uv;
-	
-	//matrix for scaling bunny that i would reuse for all the objects
+	//RX,Ry,Rz -> theta,phi -> uv can use atan and acos 
+	//matrix for scaling that i would reuse for all the objects
 	mat3 scaleMesh = mat3 (
 		scaleX, 1.0, 1.0,
 		1.0, scaleY, 1.0,
@@ -34,7 +34,7 @@ void main(void)
     mat3 normalMatrix = mat3(transpose(inverse(modelview)));
     N = normalize(normalMatrix * normal);
 
-    float scale = 4.0;    
+    float scale = 0.3;    
     vec3 positionModelSpace = vertex*scale + vec3(0.0, -0.42, 0.0);
     vec4 positionCameraSpace = modelview * vec4(positionModelSpace, 1.0);
 

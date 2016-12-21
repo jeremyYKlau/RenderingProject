@@ -1,0 +1,24 @@
+#
+# Wavefront material file: c:\windows\desktop\npr-art-new\models\stomach.mtl
+#
+# Converted by the PolyTrans geometry converter from Okino Computer Graphics, Inc.
+# Date/time of export: 08/15/2002 12:11:42
+#
+# Bounding box of geometry = (-1.22862,-1.37075,-5.28751) to (4.46956,3.14574,2.54927).
+
+newmtl default
+	Ns 32
+	d 1
+	illum 2
+	Kd 0.4 0.4 0.4
+	Ks 0.7 0.7 0.7
+	Ka 0.3 0.3 0.3
+
+newmtl 0
+	Ns 32
+	d 1
+	illum 2
+	Kd 0.4 0.4 0.4
+	Ks 0.7 0.7 0.7
+	Ka 0.3 0.3 0.3
+

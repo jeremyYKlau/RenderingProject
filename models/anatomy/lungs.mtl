@@ -1,0 +1,24 @@
+#
+# Wavefront material file: c:\windows\desktop\npr-art-new\models\lungs.mtl
+#
+# Converted by the PolyTrans geometry converter from Okino Computer Graphics, Inc.
+# Date/time of export: 08/15/2002 12:09:45
+#
+# Bounding box of geometry = (-5.33455,-4.07114,-12.6642) to (5.33455,2.94346,-2.39469).
+
+newmtl default
+	Ns 32
+	d 1
+	illum 2
+	Kd 0.4 0.4 0.4
+	Ks 0.7 0.7 0.7
+	Ka 0.3 0.3 0.3
+
+newmtl 0
+	Ns 32
+	d 1
+	illum 2
+	Kd 0.4 0.4 0.4
+	Ks 0.7 0.7 0.7
+	Ka 0.3 0.3 0.3
+
