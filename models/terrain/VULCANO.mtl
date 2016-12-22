@@ -1,0 +1,26 @@
+# File produced by AccuTrans 3D
+
+newmtl NIELS_BART
+       Ns 4
+       d 1
+       illum 2
+       Kd 0.815686 0.760784 0.458824
+       Ka 0.000000 0.000000 0.000000
+       Ks 1.000000 1.000000 1.000000
+
+newmtl NIELS_BART_1
+       Ns 4
+       d 1
+       illum 2
+       Kd 1.000000 1.000000 1.000000
+       Ka 0.043137 0.043137 0.043137
+       Ks 0.992157 0.992157 1.000000
+
+newmtl VULCANO
+       Ns 4
+       d 1
+       illum 2
+       Kd 0.000000 0.000000 0.000000
+       Ka 0.000000 0.000000 0.000000
+       Ks 0.000000 0.000000 0.000000
+       map_Kd VULCA2.bmp

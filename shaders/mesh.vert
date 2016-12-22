@@ -21,6 +21,7 @@ void main(void)
 {
 	UV = uv;
 	//RX,Ry,Rz -> theta,phi -> uv can use atan and acos 
+	
 	//matrix for scaling that i would reuse for all the objects
 	mat3 scaleMesh = mat3 (
 		scaleX, 1.0, 1.0,
@@ -42,7 +43,7 @@ void main(void)
     vec3 P = positionCameraSpace.xyz/positionCameraSpace.w;
    
     L = normalize(lightCameraSpace.xyz - P);
-    V = normalize(-P);
+    V = normalize(P);
 
     gl_Position = projection * positionCameraSpace;    
 }

@@ -21,11 +21,18 @@ uniform float ks = 1.0;
 uniform float ke = 5.0;
 
 void main(void)
-{    	
+{
+	// Calculate R locally
+    vec3 R = reflect(-L, N);
+    /* This is indexing sphere maps
+	float m = 2*pow((pow(R.x,2)+pow(R.y,2)+pow(R.z+1,2)),0.5);
+	float u = (R.x/m)+(1/2);
+	float v = (r.y/m)+(1/2);
+	
+	vec2 textureCoords = vec2(u,v);*/
 	vec4 colorImage = texture(image, UV);
 
-    // Calculate R locally
-    vec3 R = reflect(-L, N);
+ 
 
     vec3 ambient =  ka * ambient_albedo;
     vec3 diffuse =  kd * max(dot(N, L), 0.0) * colorImage.xyz;

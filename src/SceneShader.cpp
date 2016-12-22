@@ -23,11 +23,11 @@ SceneShader::SceneShader(): Shader()
 	_planeVertexArray = -1;
 	_mvUniform = -1;
 	_projUniform = -1;
-	_zTranslation = 1.0;
+	_zTranslation = 1.5;
 	_aspectRatio = 1.0;
 	_xRot = 0.0;
 	_yRot = 0.0;
-	lightPosition = glm::vec3(0.5, 0.5, 0.5);
+	lightPosition = glm::vec3(0.5, 1.5, 0.5);
 	zoom = 45.0f;
 
 }
@@ -79,7 +79,6 @@ void SceneShader::createHemisphere()
 		for (int theta = 0; theta <= 360; theta = theta + interval)
 		{
 			t = interval*(PI/180.f);
-			//something with point 1 i think it may be all of them actually
 			//Point 1
 			x = r*(cos(theta*(PI/180.f))*sin(phi*(PI/180.f)));
 			y = r*(sin(theta*(PI/180.f))*sin(phi*(PI/180.f)));
@@ -123,7 +122,6 @@ void SceneShader::createHemisphere()
 			v = ((phi)/(PI))+(t);
 			glm::vec2 t3 = glm::vec2(u,v);
 			eTex.push_back(t3);
-			
 		}
 	}
 }
@@ -150,10 +148,10 @@ void SceneShader::createVertexBuffer()
 	//create plane geometry
 	static const GLfloat quadData[] =
 	{
-		-10.0f, 0.0f, -10.0f,
-		-10.0f, 0.0f,  10.0f,
-		 10.0f, 0.0f, -10.0f,
-		 10.0f, 0.0f,  10.0f,
+		-10.0f, -1.0f, -100.0f,
+		-10.0f, -1.0f,  100.0f,
+		 10.0f, -1.0f, -100.0f,
+		 10.0f, -1.0f,  100.0f,
 	};
 
 	//create plane UV coordinates
@@ -198,7 +196,7 @@ void SceneShader::createVertexBuffer()
 	glBindVertexArray(0);
 
 	//read and create mesh geometry
-	readMesh("./models/teapot.ply"); //normalized vertices coordinates
+	readMesh("./models/tpot.ply"); //normalized vertices coordinates
 
 	//triangle mesh
 	glGenVertexArrays(1, &_meshVertexArray);
@@ -297,6 +295,8 @@ void SceneShader::renderPlane()
 
 	glUniform3fv(glGetUniformLocation(_programPlane, "lightPosition"), 1, glm::value_ptr(lightPosition) );
 
+	glUniform1f(glGetUniformLocation(_programMesh, "pi"), PI);
+	
 	glDrawArrays(GL_TRIANGLES, 0, 4);
 
 	_texture.unbind2DTexture();
@@ -343,6 +343,8 @@ void SceneShader::renderMesh()
 	glUniform1f(glGetUniformLocation(_programMesh, "scaleX"), scaleX);
 	glUniform1f(glGetUniformLocation(_programMesh, "scaleY"), scaleY);
 	glUniform1f(glGetUniformLocation(_programMesh, "scaleZ"), scaleZ);
+	
+	glUniform1f(glGetUniformLocation(_programMesh, "pi"), PI);
 
 	glDrawElements( GL_TRIANGLES, _mesh->faces.size()*3, GL_UNSIGNED_INT, 0 );
 
@@ -389,6 +391,8 @@ void SceneShader::renderHemisphere()
 	glUniform1f(glGetUniformLocation(_programHemisphere, "scaleY"), scaleY);
 	glUniform1f(glGetUniformLocation(_programHemisphere, "scaleZ"), scaleZ);
 
+	glUniform1f(glGetUniformLocation(_programMesh, "pi"), PI);
+	
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, sizeof(glm::vec3)*ePos.size());
 
 	glBindVertexArray(0);
@@ -434,7 +438,7 @@ void SceneShader::render()
 	//renderPlane();
 	renderMesh();
 	renderLight();
-	//renderHemisphere();
+	renderHemisphere();
 }
 
 void SceneShader::setZTranslation(float z)

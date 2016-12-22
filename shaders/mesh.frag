@@ -3,7 +3,7 @@
 out vec4 color;
 
 uniform sampler2D image;
-
+uniform float pi;
 in vec3 N;
 in vec3 V;
 in vec3 L;
@@ -27,21 +27,20 @@ void main(void)
     vec3 R = reflect(-L, N);
     
     //somewhere in here insert equation
-    /*theta = atan1(Rx,Ry)
-     *phi = acos(Rz)
-     
-    Then after for U,v coords
-    * u = theta/2pi
-    * v = phi / pi
-	*/
+    float theta = atan(R.y/R.x);
+    float phi = acos(R.z);
     
+    //normalizing the textureCoords created some very strange results
+    vec2 textureCoords = vec2((theta/(2.f*pi)),(phi/(2*pi)));
+
+	//colorImage is on it's own so we can actively change the way the final color comes out
+	vec4 colorImage = texture(image, textureCoords);
+            
     //these are probably irrelevant because i'm just going to use reflections mapping
     vec3 ambient =  ka * ambient_albedo;
     vec3 diffuse =  kd * max(dot(N, L), 0.0) * colorImage.xyz;
     vec3 specular = ks * pow(max(dot(R, V), 0.0), ke) * specular_albedo;
 
-	//colorImage is on it's own so we can actively change the way the final color comes out
-	vec4 colorImage = texture(image, UV);
-    
+	//looks strange yet kinda cool color = vec4(diffuse, 1.0)*colorImage;
     color = colorImage;
 }

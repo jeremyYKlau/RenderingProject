@@ -1,0 +1,10 @@
+# File produced by AccuTrans 3D
+
+newmtl SPHERE01
+       Ns 4
+       d 1
+       illum 2
+       Kd 0.537255 0.196078 0.196078
+       Ka 0.176471 0.062745 0.062745
+       Ks 0.898039 0.898039 0.898039
+       map_Kd VENUS.JPG

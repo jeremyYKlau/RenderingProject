@@ -1,0 +1,134 @@
+# File produced by AccuTrans 3D
+
+newmtl DIKESTREAM
+       Ns 4
+       d 1
+       illum 2
+       Kd 0.000000 0.000000 0.000000
+       Ka 0.000000 0.000000 0.000000
+       Ks 0.000000 0.000000 0.000000
+       map_Kd WATER.TGA
+
+newmtl LAKE
+       Ns 4
+       d 1
+       illum 2
+       Kd 0.000000 0.000000 0.000000
+       Ka 0.000000 0.000000 0.000000
+       Ks 0.000000 0.000000 0.000000
+       map_Kd WATER.TGA
+
+newmtl ORIGINAL
+       Ns 4
+       d 1
+       illum 2
+       Kd 0.000000 0.000000 0.000000
+       Ka 0.000000 0.000000 0.000000
+       Ks 0.000000 0.000000 0.000000
+       map_Kd VAIL.CEL
+
+newmtl PED_EW
+       Ns 4
+       d 1
+       illum 2
+       Kd 0.439216 0.396078 0.376471
+       Ka 0.333333 0.309804 0.290196
+       Ks 0.478431 0.458824 0.447059
+
+newmtl PED_NS
+       Ns 4
+       d 1
+       illum 2
+       Kd 0.439216 0.396078 0.376471
+       Ka 0.333333 0.309804 0.290196
+       Ks 0.478431 0.458824 0.447059
+
+newmtl RIVER01
+       Ns 4
+       d 1
+       illum 2
+       Kd 0.000000 0.000000 0.000000
+       Ka 0.000000 0.000000 0.000000
+       Ks 0.000000 0.000000 0.000000
+       map_Kd WATER.TGA
+
+newmtl RIVER02
+       Ns 4
+       d 1
+       illum 2
+       Kd 0.000000 0.000000 0.000000
+       Ka 0.000000 0.000000 0.000000
+       Ks 0.000000 0.000000 0.000000
+       map_Kd WATER.TGA
+
+newmtl STAGE_1
+       Ns 4
+       d 1
+       illum 2
+       Kd 0.000000 0.000000 0.000000
+       Ka 0.000000 0.000000 0.000000
+       Ks 0.000000 0.000000 0.000000
+       map_Kd VAIL.CEL
+
+newmtl STAGE_2
+       Ns 4
+       d 1
+       illum 2
+       Kd 0.000000 0.000000 0.000000
+       Ka 0.000000 0.000000 0.000000
+       Ks 0.000000 0.000000 0.000000
+       map_Kd VAIL.CEL
+
+newmtl STAGE_3
+       Ns 4
+       d 1
+       illum 2
+       Kd 0.000000 0.000000 0.000000
+       Ka 0.000000 0.000000 0.000000
+       Ks 0.000000 0.000000 0.000000
+       map_Kd VAIL.CEL
+
+newmtl STAGE_4
+       Ns 4
+       d 1
+       illum 2
+       Kd 0.000000 0.000000 0.000000
+       Ka 0.000000 0.000000 0.000000
+       Ks 0.000000 0.000000 0.000000
+       map_Kd VAIL.CEL
+
+newmtl STAGE_5
+       Ns 4
+       d 1
+       illum 2
+       Kd 0.000000 0.000000 0.000000
+       Ka 0.000000 0.000000 0.000000
+       Ks 0.000000 0.000000 0.000000
+       map_Kd VAIL.CEL
+
+newmtl STAGE_6
+       Ns 4
+       d 1
+       illum 2
+       Kd 0.000000 0.000000 0.000000
+       Ka 0.000000 0.000000 0.000000
+       Ks 0.000000 0.000000 0.000000
+       map_Kd VAIL.CEL
+
+newmtl STAGE_7
+       Ns 4
+       d 1
+       illum 2
+       Kd 0.000000 0.000000 0.000000
+       Ka 0.000000 0.000000 0.000000
+       Ks 0.000000 0.000000 0.000000
+       map_Kd VAIL.CEL
+
+newmtl TERRAIN
+       Ns 4
+       d 1
+       illum 2
+       Kd 0.000000 0.000000 0.000000
+       Ka 0.000000 0.000000 0.000000
+       Ks 0.000000 0.000000 0.000000
+       map_Kd VAIL.CEL

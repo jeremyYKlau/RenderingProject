@@ -29,14 +29,25 @@ void keyboard( unsigned char key, int x, int y )
 	{
 	case (27):
 		exit(EXIT_FAILURE);
+	
+	//Z and X for camera rotation about the y axis
 	case (GLFW_KEY_X):
-		rotate_y += 1.0f;
+		rotate_y += 1.5f;
 	break;
 	case (GLFW_KEY_Z):
-		rotate_y -=  1.0f;
+		rotate_y -=  1.5f;
 	break;
 	
-//reset camera after messing it around to an origin point looking at the object
+	//C and V for camera rotation about the x axis
+	case (GLFW_KEY_C):
+		rotate_x -=  1.5f;
+	break;
+	
+	case (GLFW_KEY_V):
+		rotate_x +=  1.5f;
+	break;
+	
+//reset camera after messing it around to an origin point looking at the object but does not reset the light
 	case (GLFW_KEY_R):
 	{
 		rotate_x = 0.0;
@@ -45,17 +56,6 @@ void keyboard( unsigned char key, int x, int y )
 	}
 	break;
 	
-	case (GLFW_KEY_J):
-	{
-		shader.scaleX = shader.scaleX + 10.0;
-		shader.scaleY = shader.scaleY + 10.0;
-		shader.scaleZ = shader.scaleZ + 10.0;
-		cout << shader.scaleX << endl;
-		cout << shader.scaleY << endl;
-		cout << shader.scaleZ << endl;
-	}
-	break;
-
 	case (GLFW_KEY_A):
 		shader.updateLightPositionX(-factor);
 	break;
@@ -106,17 +106,17 @@ void motion( GLFWwindow* w, double x, double y )
 	dx = (x - mouse_old_x);
 	dy = (y - mouse_old_y);
 
-//movement only for rotation about the y axis or horizontal rotation
+//movement for both rotations easier this way
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1))
 	{
-		//rotate_x += dy * 0.5f;
+		rotate_x += dy * 0.5f;
 		rotate_y += dx * 0.5f;
 	}
-//movement for rotation about the x axis
+//same as the other mouse button full control on both buttons is easier
 	else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_2))
 	{
 		rotate_x += dy * 0.5f;
-		//rotate_y += dx * 0.5f;
+		rotate_y += dx * 0.5f;
 	}
 
 	mouse_old_x = x;
@@ -124,13 +124,13 @@ void motion( GLFWwindow* w, double x, double y )
 
 }
 
+//zoom based on camera to ensure models all scale with camera
 void scroll( GLFWwindow* w, double x, double y )
 {
 	double dy;
 	dy = (x - y);
 	oldZ = translate_z;
 	translate_z -= dy * 0.03f;
-	cout << translate_z << endl;
 }
 
 void render( )
