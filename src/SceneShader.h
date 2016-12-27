@@ -45,11 +45,11 @@ public:
 	void updateLightPositionZ( float z );
 	void loadTextures();
 
+	//value for changing the textures
 	int tMode;
+	//value for changing the model
+	int mMode;
 	float zoom;
-	float scaleX;
-	float scaleY;
-	float scaleZ;
 	
 private:
 

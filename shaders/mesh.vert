@@ -22,13 +22,6 @@ void main(void)
 	UV = uv;
 	//RX,Ry,Rz -> theta,phi -> uv can use atan and acos 
 	
-	//matrix for scaling that i would reuse for all the objects
-	mat3 scaleMesh = mat3 (
-		scaleX, 1.0, 1.0,
-		1.0, scaleY, 1.0,
-		1.0, 1.0, scaleZ
-	);
-	
     vec4 lightCameraSpace = modelview * vec4(lightPosition, 1.0);
     lightCameraSpace /= lightCameraSpace.w;
 
@@ -39,8 +32,7 @@ void main(void)
     vec3 positionModelSpace = vertex*scale + vec3(0.0, -0.42, 0.0);
     vec4 positionCameraSpace = modelview * vec4(positionModelSpace, 1.0);
 
-	//positionModelSpace = positionModelSpace.x*scaleX;
-    vec3 P = positionCameraSpace.xyz/positionCameraSpace.w;
+	vec3 P = positionCameraSpace.xyz/positionCameraSpace.w;
    
     L = normalize(lightCameraSpace.xyz - P);
     V = normalize(P);

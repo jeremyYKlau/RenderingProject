@@ -20,27 +20,31 @@ uniform float kd = 0.5;
 uniform float ks = 1.0;
 uniform float ke = 5.0;
 
+
 void main(void)
 {    	
 
     // Calculate R locally this contains Rz,Ry,Rz
     vec3 R = reflect(-L, N);
     
-    //somewhere in here insert equation
-    float theta = atan(R.y/R.x);
+    //the main chrome/reflection mapping algorithm, formula
+    float theta = atan(R.x/R.y);
     float phi = acos(R.z);
-    
-    //normalizing the textureCoords created some very strange results
-    vec2 textureCoords = vec2((theta/(2.f*pi)),(phi/(2*pi)));
 
-	//colorImage is on it's own so we can actively change the way the final color comes out
+	//normalize texture coordinates based off a sphere
+	float u = theta/(2.f*pi);
+	float v = phi/(pi);
+    vec2 textureCoords = vec2(u,v);
+
+	//for cool effect use this one for texture coordinates 
+	//vec2 textureCoords = vec2(u,v);
+
 	vec4 colorImage = texture(image, textureCoords);
             
-    //these are probably irrelevant because i'm just going to use reflections mapping
+    //left over from tutorial example
     vec3 ambient =  ka * ambient_albedo;
     vec3 diffuse =  kd * max(dot(N, L), 0.0) * colorImage.xyz;
     vec3 specular = ks * pow(max(dot(R, V), 0.0), ke) * specular_albedo;
 
-	//looks strange yet kinda cool color = vec4(diffuse, 1.0)*colorImage;
     color = colorImage;
 }

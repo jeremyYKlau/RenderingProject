@@ -24,11 +24,12 @@ SceneShader::SceneShader(): Shader()
 	_mvUniform = -1;
 	_projUniform = -1;
 	_zTranslation = 1.5;
-	_aspectRatio = 1.0;
+	_aspectRatio = 10.0;
 	_xRot = 0.0;
 	_yRot = 0.0;
 	lightPosition = glm::vec3(0.5, 1.5, 0.5);
 	zoom = 45.0f;
+	tMode = 1;
 
 }
 
@@ -62,18 +63,67 @@ void SceneShader::readMesh( std::string filename )
 	calculateCylindricalUVCoordinates();
 }
 
+//the function for loading the textures
+void SceneShader::loadTextures()
+{
+	glDeleteTextures(1, &_textureID);
+	std::string imageFilename;
+	if (tMode == 1)
+		{
+			imageFilename = std::string("textures/brick.png");
+		}
+	else if (tMode == 2)
+		{
+			imageFilename = std::string("textures/chrome.png");
+		}
+	else if (tMode == 3)
+		{
+			imageFilename = std::string("textures/texture1.png");
+		}
+	else if (tMode == 4)
+		{
+			imageFilename = std::string("textures/lion.png");
+		}
+	else if (tMode == 5)
+		{
+			imageFilename = std::string("textures/plain.png");
+		}
+	else if (tMode == 6)
+		{
+			imageFilename = std::string("textures/interior.png");
+		}
+	//initialize an empty vector for image because it is neccessary or else it won't switch textures
+	std::vector<unsigned char> _image;
+	
+	unsigned int error = lodepng::decode(_image, _imageWidth, _imageHeight, imageFilename.c_str());
+	if (error)
+	{
+		std::cout << "reading error" << error << ":" << lodepng_error_text(error) << std::endl;
+	}
+
+	_textureImageID = _texture.create2DTexture(_image, _imageWidth, _imageHeight);
+	cout << "loadingTextures" << endl;
+}
+
 void SceneShader::createHemisphere()
 {
+	//interval is for how much space to partition each angle when generating new triangle
 	int interval = 5;
+	//r is the radius of sphere
 	float r = 1;
+	//interval but calculated in sphereical coordinates
 	float t;
 	float x = 0;
 	float y = 0;
 	float z = 0;
 	float u;
 	float v;
-	//float pi = PI;
-	//using phi and theta create intervals to create a single 4 point quad to render as part of the hemisphere
+	/*
+	using phi and theta create intervals to create a single 4 point quad to render as part of the hemisphere
+	these 4 points are stored in an array of vec3's
+	texture coordinates are stored in an array of vec2's
+	push the vectors stored at each point for texture and position to be rendered in shaders
+	*/
 	for (int phi = 0; phi <= 180; phi = phi + interval)
 	{
 		for (int theta = 0; theta <= 360; theta = theta + interval)
@@ -85,6 +135,7 @@ void SceneShader::createHemisphere()
 			z = r*cos(phi*(PI/180.f));
 			glm::vec3 p0 = glm::vec3(x,y,z);
 			ePos.push_back(p0);
+			//normalize texture coordinates so that it accesses all space from the texture given
 			u = (theta)/(2.0*PI);
 			v = (phi)/(PI);
 			glm::vec2 t0 = glm::vec2(u,v);
@@ -96,6 +147,7 @@ void SceneShader::createHemisphere()
 			z = r*cos(phi*(PI/180.f));
 			glm::vec3 p1 = glm::vec3(x,y,z);
 			ePos.push_back(p1);
+			//normalize texture coordinates so that it accesses all space from the texture given
 			u = ((theta)/(2.0*PI))+(t);
 			v = ((phi)/(PI));
 			glm::vec2 t1 = glm::vec2(u,v);
@@ -107,6 +159,7 @@ void SceneShader::createHemisphere()
 			z = r*cos(phi*(PI/180.f)+t);
 			glm::vec3 p2 = glm::vec3(x,y,z);
 			ePos.push_back(p2);
+			//normalize texture coordinates so that it accesses all space from the texture given
 			u = ((theta)/(2.0*PI));
 			v = ((phi)/(PI))+(t);
 			glm::vec2 t2 = glm::vec2(u,v);
@@ -118,6 +171,7 @@ void SceneShader::createHemisphere()
 			z = r*cos(phi*(PI/180.f)+t);
 			glm::vec3 p3 = glm::vec3(x,y,z);
 			ePos.push_back(p3);
+			//normalize texture coordinates so that it accesses all space from the texture given
 			u = ((theta)/(2.0*PI))+(t);
 			v = ((phi)/(PI))+(t);
 			glm::vec2 t3 = glm::vec2(u,v);
@@ -164,16 +218,8 @@ void SceneShader::createVertexBuffer()
 	};
 
 	//creating texture 2D
-	std::string imageFilename("textures/brick.png");
-
-	//reading model texture image
-	unsigned int error = lodepng::decode(_image, _imageWidth, _imageHeight, imageFilename.c_str());
-	if (error)
-	{
-		std::cout << "reading error" << error << ":" << lodepng_error_text(error) << std::endl;
-	}
-
-	_textureImageID = _texture.create2DTexture(_image, _imageWidth, _imageHeight);
+	//calls function that switches textures from the ones I have already chosen
+	loadTextures();
 
 	//passing model attributes to the GPU
 	//plane
@@ -340,10 +386,6 @@ void SceneShader::renderMesh()
 
 	glUniform3fv(glGetUniformLocation(_programMesh, "lightPosition"), 1, glm::value_ptr(lightPosition) );
 
-	glUniform1f(glGetUniformLocation(_programMesh, "scaleX"), scaleX);
-	glUniform1f(glGetUniformLocation(_programMesh, "scaleY"), scaleY);
-	glUniform1f(glGetUniformLocation(_programMesh, "scaleZ"), scaleZ);
-	
 	glUniform1f(glGetUniformLocation(_programMesh, "pi"), PI);
 
 	glDrawElements( GL_TRIANGLES, _mesh->faces.size()*3, GL_UNSIGNED_INT, 0 );
@@ -386,10 +428,6 @@ void SceneShader::renderHemisphere()
 	glUniformMatrix4fv(glGetUniformLocation(_programHemisphere, "projection"), 1, GL_FALSE, glm::value_ptr(_projection));
 
 	glUniform3fv(glGetUniformLocation(_programHemisphere, "lightPosition"), 1, glm::value_ptr(lightPosition) );
-
-	glUniform1f(glGetUniformLocation(_programHemisphere, "scaleX"), scaleX);
-	glUniform1f(glGetUniformLocation(_programHemisphere, "scaleY"), scaleY);
-	glUniform1f(glGetUniformLocation(_programHemisphere, "scaleZ"), scaleZ);
 
 	glUniform1f(glGetUniformLocation(_programMesh, "pi"), PI);
 	

@@ -56,6 +56,42 @@ void keyboard( unsigned char key, int x, int y )
 	}
 	break;
 	
+		case (GLFW_KEY_1):
+			shader.tMode = 1;
+			shader.loadTextures();
+			cout << shader.tMode << endl;
+	break;
+	
+	case (GLFW_KEY_2):
+			shader.tMode = 2;
+			shader.loadTextures();
+			cout << shader.tMode << endl;
+	break;
+	
+	case (GLFW_KEY_3):
+			shader.tMode = 3;
+			shader.loadTextures();
+			cout << shader.tMode << endl;
+	break;
+	
+	case (GLFW_KEY_4):
+			shader.tMode = 4;
+			shader.loadTextures();
+			cout << shader.tMode << endl;
+	break;
+	
+	case (GLFW_KEY_5):
+			shader.tMode = 5;
+			shader.loadTextures();
+			cout << shader.tMode << endl;
+	break;
+	
+	case (GLFW_KEY_6):
+			shader.tMode = 6;
+			shader.loadTextures();
+			cout << shader.tMode << endl;
+	break;
+	
 	case (GLFW_KEY_A):
 		shader.updateLightPositionX(-factor);
 	break;

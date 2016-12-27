@@ -24,13 +24,13 @@ void main(void)
 {
 	// Calculate R locally
     vec3 R = reflect(-L, N);
-    /* This is indexing sphere maps
-	float m = 2*pow((pow(R.x,2)+pow(R.y,2)+pow(R.z+1,2)),0.5);
-	float u = (R.x/m)+(1/2);
-	float v = (r.y/m)+(1/2);
+    
+    float m = 2*(pow((pow(R.x,2)+pow(R.y,2)+pow(R.z+1,2)),0.5));
+	float u = (R.x/m)+(0.5);
+	float v = (R.y/m)+(0.5);
 	
-	vec2 textureCoords = vec2(u,v);*/
-	vec4 colorImage = texture(image, UV);
+	vec2 textureCoords = vec2(u,v);
+	vec4 colorImage = texture(image, textureCoords);
 
  
 
@@ -39,8 +39,6 @@ void main(void)
     vec3 specular = ks * pow(max(dot(R, V), 0.0), ke) * specular_albedo;
 
     color = colorImage;
-    // diffuse test
-    //color = vec4(1.0, 0.0, 0.0, 1.0);
 }
 
 
