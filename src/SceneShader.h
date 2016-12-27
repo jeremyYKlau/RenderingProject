@@ -44,11 +44,9 @@ public:
 	void updateLightPositionY( float y );
 	void updateLightPositionZ( float z );
 	void loadTextures();
-
+	
 	//value for changing the textures
 	int tMode;
-	//value for changing the model
-	int mMode;
 	float zoom;
 	
 private:

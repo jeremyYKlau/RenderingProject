@@ -28,7 +28,7 @@ void main(void)
     mat3 normalMatrix = mat3(transpose(inverse(modelview)));
     N = normalize(normalMatrix * normal);
 
-    float scale = 0.3;    
+    float scale = 0.3;
     vec3 positionModelSpace = vertex*scale + vec3(0.0, -0.42, 0.0);
     vec4 positionCameraSpace = modelview * vec4(positionModelSpace, 1.0);
 

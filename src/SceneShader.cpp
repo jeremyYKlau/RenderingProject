@@ -30,7 +30,6 @@ SceneShader::SceneShader(): Shader()
 	lightPosition = glm::vec3(0.5, 1.5, 0.5);
 	zoom = 45.0f;
 	tMode = 1;
-
 }
 
 void SceneShader::calculateCylindricalUVCoordinates()
@@ -242,8 +241,8 @@ void SceneShader::createVertexBuffer()
 	glBindVertexArray(0);
 
 	//read and create mesh geometry
-	readMesh("./models/tpot.ply"); //normalized vertices coordinates
-
+	readMesh("./models/tpot.ply");
+	
 	//triangle mesh
 	glGenVertexArrays(1, &_meshVertexArray);
 	glBindVertexArray(_meshVertexArray);
@@ -332,8 +331,8 @@ void SceneShader::renderPlane()
 	glm::mat4 rotationX = glm::rotate(identity, _yRot  * PI/180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 	glm::mat4 rotationY = glm::rotate(identity, _xRot  * PI/180.0f, glm::vec3(1.0f, 0.0f, 0.0f));
 
-        _modelview *=  rotationX;
-		_modelview *=  rotationY;
+	_modelview *=  rotationX;
+	_modelview *=  rotationY;
 
 	//Uniform variables
 	glUniformMatrix4fv(glGetUniformLocation(_programPlane, "modelview"), 1, GL_FALSE, glm::value_ptr(_modelview));
@@ -501,7 +500,7 @@ void SceneShader::setRotationY( float y )
 
 void SceneShader::shutdown()
 {
-//delete reflective object
+//delete center object
 	glDeleteBuffers(1, &_meshVertexBuffer);
 	glDeleteBuffers(1, &_meshNormalBuffer);
 	glDeleteBuffers(1, &_meshIndicesBuffer );
