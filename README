@@ -1,0 +1,13 @@
+FEATURES
+A chrome map that works for all objects of varying complexity however it is designed for sphereical mapping so cubic shapes or sharp edges cause problems. Also chrome mapping is not that advanced so it has artifacts such as at the spheres poles and on complex objects with varying reflections
+Background image is mapped properly to the exterior sphere
+Movable camera and light rotating around the object in the middle
+Can switch between 6 textures of random choice with the last 2 being panarama none square images allowing for long or stretched images to be used as everything is normalized at the end.
+Zooming in and out works
+
+Limitations 
+Can't move the object though that would be counter productive for the mapping
+Exterior doesn't rotate which is strange as I am rotating the entire model but nothing I can do about it to my knowledge
+Artifacts on many models due to the nature of chrome mapping 
+Zoom scaling may mess up if too far or near as no limitations put on the zoom value
+ 
