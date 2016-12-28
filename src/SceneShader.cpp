@@ -27,7 +27,10 @@ SceneShader::SceneShader(): Shader()
 	_aspectRatio = 10.0;
 	_xRot = 0.0;
 	_yRot = 0.0;
-	lightPosition = glm::vec3(0.5, 1.5, 0.5);
+	lX = 0.5;
+	lY = 1.0;
+	lZ = 0.5;
+	lightPosition = glm::vec3(lX, lY, lZ);
 	zoom = 45.0f;
 	tMode = 1;
 }
@@ -63,6 +66,7 @@ void SceneShader::readMesh( std::string filename )
 }
 
 //the function for loading the textures
+//takes user input to change textures
 void SceneShader::loadTextures()
 {
 	glDeleteTextures(1, &_textureID);
@@ -104,6 +108,7 @@ void SceneShader::loadTextures()
 	cout << "loadingTextures" << endl;
 }
 
+//create exterior sphere
 void SceneShader::createHemisphere()
 {
 	//interval is for how much space to partition each angle when generating new triangle
@@ -178,6 +183,7 @@ void SceneShader::createHemisphere()
 		}
 	}
 }
+//create the buffers for rendering of the scene
 void SceneShader::createVertexBuffer()
 {
 
@@ -241,7 +247,7 @@ void SceneShader::createVertexBuffer()
 	glBindVertexArray(0);
 
 	//read and create mesh geometry
-	readMesh("./models/tpot.ply");
+	readMesh("./models/cube.ply");
 	
 	//triangle mesh
 	glGenVertexArrays(1, &_meshVertexArray);
@@ -281,13 +287,16 @@ void SceneShader::createVertexBuffer()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(0);
 
-//for hemisphere UVs
+	//NOTE the hemisphere does not have normals stored like the Trimesh mesh
+
+	//for hemisphere UVs
 	glGenBuffers(1, &_hemisphereTextureBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, _hemisphereTextureBuffer);
 	glBufferData(GL_ARRAY_BUFFER, eTex.size() * sizeof(glm::vec2), eTex.data(), GL_STATIC_DRAW);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(1);
 
+	
 	glBindVertexArray(0);
 
 }
@@ -306,7 +315,7 @@ void SceneShader::startup()
 	createVertexBuffer();
 
 }
-//bottom of the hemisphere
+//code if a plane wants to be added in the future, in my code the plane doesn't work for some reason
 void SceneShader::renderPlane()
 {
 	glBindVertexArray(_planeVertexArray);
@@ -351,7 +360,7 @@ void SceneShader::renderPlane()
 	glBindVertexArray(0);
 }
 
-//Keep renderMesh I can use this just have to change it's property to make it reflective like a chrome sphere
+//renders interior object
 void SceneShader::renderMesh()
 {
 	glBindVertexArray(_meshVertexArray);
@@ -394,7 +403,7 @@ void SceneShader::renderMesh()
 	_texture.unbind2DTexture();
 }
 
-//currently the same as render mesh but should be used to create the exterior hemisphere
+//renders exterior sphere
 void SceneShader::renderHemisphere()
 {
 	glBindVertexArray(_hemisphereVertexArray);
@@ -417,9 +426,9 @@ void SceneShader::renderHemisphere()
 	glm::mat4 identity(1.0f);
 
 	glm::mat4 rotationX = glm::rotate(identity, _yRot  * PI/180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-	glm::mat4 rotationY = glm::rotate(identity, _xRot  * PI/180.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+	glm::mat4 rotationY = glm::rotate(identity, _xRot  * PI/180.0f, glm::vec3(5.0f, 0.0f, 0.0f));
 
-  _modelview *=  rotationX;
+	_modelview *=  rotationX;
 	_modelview *=  rotationY;
 
 	//uniform variables
@@ -437,7 +446,7 @@ void SceneShader::renderHemisphere()
 	_texture.unbind2DTexture();
 }
 
-//Might not even have light anymore doesn't really add anything to the scene
+//the light as just a point
 void SceneShader::renderLight()
 {
 	glUseProgram(_programLight);
@@ -472,7 +481,6 @@ void SceneShader::renderLight()
 
 void SceneShader::render()
 {
-	//renderPlane();
 	renderMesh();
 	renderLight();
 	renderHemisphere();

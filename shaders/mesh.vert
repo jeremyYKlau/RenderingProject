@@ -3,9 +3,6 @@
 uniform mat4 modelview;
 uniform mat4 projection;
 uniform vec3 lightPosition;
-uniform float scaleX;
-uniform float scaleY;
-uniform float scaleZ;
 
 layout (location = 0) in vec3 vertex;
 layout (location = 1) in vec3 normal;
@@ -27,8 +24,14 @@ void main(void)
 
     mat3 normalMatrix = mat3(transpose(inverse(modelview)));
     N = normalize(normalMatrix * normal);
-
-    float scale = 0.3;
+/*list of scale values for chosen models
+	tpot 0.3
+	bunny 10
+	head 0.3
+	sphere 0.5
+	cube 0.5
+*/
+    float scale = 0.6;
     vec3 positionModelSpace = vertex*scale + vec3(0.0, -0.42, 0.0);
     vec4 positionCameraSpace = modelview * vec4(positionModelSpace, 1.0);
 

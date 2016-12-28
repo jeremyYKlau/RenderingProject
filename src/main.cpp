@@ -47,16 +47,20 @@ void keyboard( unsigned char key, int x, int y )
 		rotate_x +=  1.5f;
 	break;
 	
-//reset camera after messing it around to an origin point looking at the object but does not reset the light
+	//reset camera and light position
 	case (GLFW_KEY_R):
 	{
 		rotate_x = 0.0;
 		rotate_y = 0.0;
 		translate_z = -1.0;
+		shader.lX = 0.5;
+		shader.lY = 1.0;
+		shader.lZ = 0.5; 
 	}
 	break;
 	
-		case (GLFW_KEY_1):
+	//keys 1 to 6 put new textures on the scene
+	case (GLFW_KEY_1):
 			shader.tMode = 1;
 			shader.loadTextures();
 			cout << shader.tMode << endl;
@@ -92,6 +96,7 @@ void keyboard( unsigned char key, int x, int y )
 			cout << shader.tMode << endl;
 	break;
 	
+	//WASD are to move the camera along x y and QE are for changing camera Z coordinate
 	case (GLFW_KEY_A):
 		shader.updateLightPositionX(-factor);
 	break;
@@ -142,13 +147,13 @@ void motion( GLFWwindow* w, double x, double y )
 	dx = (x - mouse_old_x);
 	dy = (y - mouse_old_y);
 
-//movement for both rotations easier this way
+//movement for both rotations x and y
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1))
 	{
 		rotate_x += dy * 0.5f;
 		rotate_y += dx * 0.5f;
 	}
-//same as the other mouse button full control on both buttons is easier
+//same as the other mouse button full control on both buttons
 	else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_2))
 	{
 		rotate_x += dy * 0.5f;
@@ -160,7 +165,7 @@ void motion( GLFWwindow* w, double x, double y )
 
 }
 
-//zoom based on camera to ensure models all scale with camera
+//zoom based on camera to ensure models all scale with camera 
 void scroll( GLFWwindow* w, double x, double y )
 {
 	double dy;

@@ -3,9 +3,6 @@
 uniform mat4 modelview;
 uniform mat4 projection;
 uniform vec3 lightPosition;
-uniform float scaleX;
-uniform float scaleY;
-uniform float scaleZ;
 
 layout (location = 0) in vec3 vertex;
 layout (location = 1) in vec2 uv;
@@ -35,7 +32,7 @@ void main(void)
     vec3 P = positionCameraSpace.xyz/positionCameraSpace.w;
 
     L = normalize(lightCameraSpace.xyz - P);
-    V = normalize(-P);
+    V = normalize(P);
 
     gl_Position = projection * positionCameraSpace;
 }

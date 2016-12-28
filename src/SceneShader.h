@@ -49,6 +49,11 @@ public:
 	int tMode;
 	float zoom;
 	
+	//light position coordinates
+	float lX;
+	float lY;
+	float lZ;
+	
 private:
 
 	/*methods*/

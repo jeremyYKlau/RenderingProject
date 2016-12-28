@@ -15,12 +15,6 @@ uniform vec3 specular_albedo = vec3(1.0); //white
 uniform vec3 ambient_albedo = vec3(1.0);  //white
 
 
-uniform float ka = 0.1;
-uniform float kd = 0.5;
-uniform float ks = 1.0;
-uniform float ke = 5.0;
-
-
 void main(void)
 {    	
 
@@ -36,15 +30,7 @@ void main(void)
 	float v = phi/(pi);
     vec2 textureCoords = vec2(u,v);
 
-	//for cool effect use this one for texture coordinates 
-	//vec2 textureCoords = vec2(u,v);
-
 	vec4 colorImage = texture(image, textureCoords);
-            
-    //left over from tutorial example
-    vec3 ambient =  ka * ambient_albedo;
-    vec3 diffuse =  kd * max(dot(N, L), 0.0) * colorImage.xyz;
-    vec3 specular = ks * pow(max(dot(R, V), 0.0), ke) * specular_albedo;
 
     color = colorImage;
 }
